@@ -54,6 +54,21 @@ Requirements:
 Running the following command results in creating a JAR file `sentiment_analysis/target/scala-2.13/bigdata-assembly-0.1.jar`:
 
 ```bash
+# install JAVA and sbt
+sudo apt update
+
+# TODO: install specific version supported bt Spark
+sydu apt install default-jre
+
+# TODO: install specific version that works for the project
+sudo apt-get install apt-transport-https curl gnupg -yqq
+echo "deb https://repo.scala-sbt.org/scalasbt/debian all main" | sudo tee /etc/apt/sources.list.d/sbt.list
+echo "deb https://repo.scala-sbt.org/scalasbt/debian /" | sudo tee /etc/apt/sources.list.d/sbt_old.list
+curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823" | sudo -H gpg --no-default-keyring --keyring gnupg-ring:/etc/apt/trusted.gpg.d/scalasbt-release.gpg --import
+sudo chmod 644 /etc/apt/trusted.gpg.d/scalasbt-release.gpg
+sudo apt-get update
+sudo apt-get install sbt
+
 cd sentiment_analysis
 sbt assembly
 ```
@@ -69,6 +84,7 @@ cd spark
 git checkout v3.4.3
 
 cp ../sentiment_analysis/target/scala-2.13/bigdata-assembly-0.1.jar jars/
+aws ecr get-login-password --region <REGION> --profile <AWS_PROFILE> | docker login --username AWS --password-stdin 532275579171.dkr.ecr.us-east-1.amazonaws.com
 bin/docker-image-tool.sh -r <Repository Address> -t sentiment-analysis build
 bin/docker-image-tool.sh -r <Repository Address> -t sentiment-analysis push
 ```
