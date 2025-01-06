@@ -22,7 +22,7 @@ variable "shards" {
 // Checkpoint location for Spark streaming on S3
 variable "checkpoint_bucket" {
   default     = "spark-sentiment-analysis"
-  description = "Number of Kinesis stream shards"
+  description = "Checkpoint bucket name"
 }
 
 // EKS specific parameters: Executors

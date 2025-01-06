@@ -1,11 +1,10 @@
 data "aws_availability_zones" "available" {}
 
 locals {
-  name = "spark-k8s-cluster"
+  name = "Proj-spark-k8s-cluster"
 
   common_tags = {
     Name    = "spark-k8s-cluster"
-    Creator = "<NAME OF THE CREATOR>"
   }
 }
 
@@ -81,12 +80,12 @@ module "eks" {
         s3_access      = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
       }
 
+      iam_role_permissions_boundary = "arn:aws:iam::aws:policy/PowerUserAccess"
+
       // run spark driver/executirs on the nodes with the following label(s)
       labels = {
         environment = "k8s"
       }
-
-      iam_role_permissions_boundary = "arn:aws:iam::aws:policy/PowerUserAccess"
     }
 
     prometheus = {
