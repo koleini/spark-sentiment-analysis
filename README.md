@@ -79,12 +79,14 @@ The Spark repository contains a script to build the Docker image needed for runn
 
 ```bash
 # assuming that the work directory is the current directory
-git clone https://github.com/apache/spark.git
-cd spark
-git checkout v3.4.3
+wget https://archive.apache.org/dist/spark/spark-3.4.3/spark-3.4.3-bin-hadoop3-scala2.13.tgz
+tar -xvzf spark-3.4.3-bin-hadoop3-scala2.13.tgz
+cd spark-3.4.3-bin-hadoop3-scala2.13
 
+# make sure that docker is installed on the machine
 cp ../sentiment_analysis/target/scala-2.13/bigdata-assembly-0.1.jar jars/
-aws ecr get-login-password --region <REGION> --profile <AWS_PROFILE> | docker login --username AWS --password-stdin 532275579171.dkr.ecr.us-east-1.amazonaws.com
+wget https://repo1.maven.org/maven2/com/roncemer/spark/spark-sql-kinesis_2.13/1.2.3_spark-3.2/spark-sql-kinesis_2.13-1.2.3_spark-3.2.jar -P jars/
+aws ecr get-login-password --region <REGION> --profile <AWS_PROFILE> | docker login --username AWS --password-stdin <ECR_ADDRESS>
 bin/docker-image-tool.sh -r <Repository Address> -t sentiment-analysis build
 bin/docker-image-tool.sh -r <Repository Address> -t sentiment-analysis push
 ```
@@ -104,7 +106,7 @@ bin/spark-submit \
       --master k8s://$MASTER_ADDRESS:443 \
       --deploy-mode cluster \
       --conf spark.executor.instances=2 \
-      --conf spark.kubernetes.container.image=532275579171.dkr.ecr.us-east-1.amazonaws.com/spark:sentiment-analysis \
+      --conf spark.kubernetes.container.image=${EKS_ADDRESS}:sentiment-analysis \
       --conf spark.kubernetes.driver.pod.name="spark-twitter" \
       --conf spark.kubernetes.namespace=default \
       --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \

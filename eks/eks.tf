@@ -4,7 +4,7 @@ locals {
   name = "Proj-spark-k8s-cluster"
 
   common_tags = {
-    Name    = "spark-k8s-cluster"
+    Name = "spark-k8s-cluster"
   }
 }
 

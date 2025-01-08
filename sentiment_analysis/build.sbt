@@ -16,6 +16,7 @@ libraryDependencies ++= Seq(
     "edu.stanford.nlp" % "stanford-corenlp" % "4.5.7" classifier "models",
 //    "org.apache.hadoop" % "hadoop-common" % "3.3.4" % "provided",
     "org.apache.hadoop" % "hadoop-aws" % "3.3.4",
+    "org.apache.commons" % "commons-lang3" % "3.12.0",
     "org.elasticsearch" %% "elasticsearch-spark-30" % "8.15.3",
 )
 
