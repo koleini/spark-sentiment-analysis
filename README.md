@@ -110,7 +110,7 @@ bin/spark-submit \
       --conf spark.kubernetes.driver.pod.name="spark-twitter" \
       --conf spark.kubernetes.namespace=default \
       --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
-      --conf spark.driver.extraJavaOptions="-DES_NODES=4$ES_ADDRESS -DCHECKPOINT_LOCATION=s3a://$CHECKPOINT_BUCKET/checkpoints/" \
+      --conf spark.driver.extraJavaOptions="-DES_NODES=$ES_ADDRESS -DCHECKPOINT_LOCATION=s3a://$CHECKPOINT_BUCKET/checkpoints/" \
       --conf spark.executor.extraJavaOptions="-DES_NODES=$ES_ADDRESS -DCHECKPOINT_LOCATION=s3a://$CHECKPOINT_BUCKET/checkpoints/" \
       --conf spark.executor.cores=12 \
       --conf spark.driver.cores=12 \
